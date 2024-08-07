@@ -8,8 +8,6 @@ library(randomForest)
 library(caret)
 library(e1071)
 
-# Set working directory
-setwd("C:/Users/borrotti/Dropbox/Bicocca/2024_Energies/energy+efficiency")
 
 # Read external file
 energy <- read.csv2("ENB2012_data.csv")
@@ -85,19 +83,16 @@ for (f in features) {
     
   }
   y0.mat = matrix(rep(y_test, B), nrow = length(output$lo))
-  #y0.train = matrix(rep(energy_train$Y1[L],ncol(out.split$lo)),nrow=length(L))
-  
+
   cov.split = colMeans(out.split$lo <= y0.mat &
                          y0.mat <= out.split$up)
   len.split = colMeans(out.split$up - out.split$lo)
   err.split = colMeans((y0.mat - as.matrix(out.split$pred)) ^ 2)
-  #train.err.split = colMeans((y0.train - as.matrix(out.split$pred_train))^2)
-  
+
   cov.rf.confpred <- rbind(cov.rf.confpred, cov.split)
   len.rf.confpred <- rbind(len.rf.confpred, len.split)
   err.rf.confpred <- rbind(err.rf.confpred, err.split)
-  #train.rf.confpred <- rbind(train.rf.confpred, train.err.split)
-  
+
   
   
   
